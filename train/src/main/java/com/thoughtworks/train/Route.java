@@ -15,23 +15,18 @@ class Route {
     }
 
     Route(String routePath) {
-        this.sections = new ArrayList<Section>();
+        this.sections = new ArrayList<>();
         initializeSections(routePath);
     }
 
     private void initializeSections(String routePath) {
         String[] stations = routePath.split("-");
         for (int i = 0; i < stations.length - 1; i++) {
-            Section section = new Section(stations[i], stations[i + 1]);
-            sections.add(section);
+            sections.add(new Section(stations[i], stations[i + 1]));
         }
     }
 
     int distance() {
-        int distance = 0;
-        for (Section section : sections) {
-            distance += Graph.instance().getDistanceOf(section);
-        }
-        return distance;
+        return sections.stream().mapToInt(Section::distance).sum();
     }
 }

@@ -2,6 +2,7 @@ package com.thoughtworks.train;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Graph
@@ -23,7 +24,7 @@ class Graph {
     }
 
     private Graph(String graphPath) {
-        sectionsInGraph = new ArrayList<Section>();
+        sectionsInGraph = new ArrayList<>();
         initializeSections(graphPath);
     }
 
@@ -38,11 +39,9 @@ class Graph {
     }
 
     int getDistanceOf(Section section) {
-        for (Section sectionInGraph : sectionsInGraph) {
-            if (sectionInGraph.equals(section)) {
-                return sectionInGraph.distance();
-            }
-        }
-        return 0;
+        Optional<Section> resultInGraph = sectionsInGraph.stream().
+                filter(sectionInGraph -> sectionInGraph.equals(section)).
+                findFirst();
+        return resultInGraph.isPresent() ? resultInGraph.get().distance() : 0;
     }
 }

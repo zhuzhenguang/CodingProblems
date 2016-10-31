@@ -1,6 +1,7 @@
 package com.thoughtworks.train;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -42,5 +43,14 @@ public class TrainTest {
         int distance = adc.distance();
 
         assertThat(distance, is(13));
+    }
+
+    @Test
+    public void distance_of_A_E_B_C_D_should_be_22() {
+        Route aebcd = new Route("A-E-B-C-D");
+
+        int distance = aebcd.distance();
+
+        assertThat(distance, is(22));
     }
 }
