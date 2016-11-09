@@ -12,10 +12,11 @@ class Route {
     private List<Section> sections;
 
     Route() {
+        this.sections = new ArrayList<>();
     }
 
     Route(String routePath) {
-        this.sections = new ArrayList<>();
+        this();
         initializeSections(routePath);
     }
 
@@ -24,6 +25,18 @@ class Route {
         for (int i = 0; i < stations.length - 1; i++) {
             sections.add(new Section(stations[i], stations[i + 1]));
         }
+    }
+
+    boolean startWith(String start) {
+        return true;
+    }
+
+    void addSection(Section section) {
+        sections.add(section);
+    }
+
+    int sectionCount() {
+        return sections.size();
     }
 
     int distance() {

@@ -31,6 +31,15 @@ class Section extends Route {
     }
 
     @Override
+    boolean startWith(String start) {
+        return this.start.equals(start);
+    }
+
+    String end() {
+        return end;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -45,4 +45,8 @@ class Graph {
         }
         throw new NoSuchRouteException("NO SUCH ROUTE");
     }
+
+    List<Section> sections() {
+        return sectionsInGraph;
+    }
 }

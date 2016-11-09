@@ -1,10 +1,11 @@
 package com.thoughtworks.train;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -24,7 +25,7 @@ public class TrainTest {
     }
 
     @Test
-    public void distance_of_A_B_C_should_be_9()  {
+    public void distance_of_A_B_C_should_be_9() {
         Route abc = new Route("A-B-C");
 
         int distance = abc.distance();
@@ -33,7 +34,7 @@ public class TrainTest {
     }
 
     @Test
-    public void distance_of_A_D_should_be_5()  {
+    public void distance_of_A_D_should_be_5() {
         Route ad = new Route("A-D");
 
         int distance = ad.distance();
@@ -42,7 +43,7 @@ public class TrainTest {
     }
 
     @Test
-    public void distance_of_A_D_C_should_be_13()  {
+    public void distance_of_A_D_C_should_be_13() {
         Route adc = new Route("A-D-C");
 
         int distance = adc.distance();
@@ -51,7 +52,7 @@ public class TrainTest {
     }
 
     @Test
-    public void distance_of_A_E_B_C_D_should_be_22()  {
+    public void distance_of_A_E_B_C_D_should_be_22() {
         Route aebcd = new Route("A-E-B-C-D");
 
         int distance = aebcd.distance();
@@ -60,12 +61,25 @@ public class TrainTest {
     }
 
     @Test
-    public void distance_of_A_E_D_should_be_NO_SUCH_ROUTE()  {
+    public void distance_of_A_E_D_should_be_NO_SUCH_ROUTE() {
         Route aed = new Route("A-E-D");
 
         thrown.expect(NoSuchRouteException.class);
         thrown.expectMessage("NO SUCH ROUTE");
 
         aed.distance();
+    }
+
+    @Test
+    public void there_are_2_routes_starting_at_C_and_ending_at_C_with_a_maximum_of_3_stops() {
+        List<Route> routes = new RoutesBuilder().
+                startAt("C").
+                endAt("C").
+                withMaximumOfStops(3).
+                get();
+
+        int numberOfRoutes = routes.size();
+
+        assertThat(numberOfRoutes, is(2));
     }
 }
