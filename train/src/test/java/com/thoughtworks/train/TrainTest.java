@@ -1,5 +1,7 @@
 package com.thoughtworks.train;
 
+import com.thoughtworks.train.routesbuilder.RoutesBuilderByExactlyOfStops;
+import com.thoughtworks.train.routesbuilder.RoutesBuilderByMaximumOfStops;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -71,15 +73,26 @@ public class TrainTest {
     }
 
     @Test
-    public void there_are_2_routes_starting_at_C_and_ending_at_C_with_a_maximum_of_3_stops() {
-        List<Route> routes = new RoutesBuilder().
+    public void there_are_2_routes_starting_at_C_and_ending_at_C_with_maximum_of_3_stops() {
+        List<Route> routes = new RoutesBuilderByMaximumOfStops(3).
                 startAt("C").
                 endAt("C").
-                withMaximumOfStops(3).
                 get();
 
         int numberOfRoutes = routes.size();
 
         assertThat(numberOfRoutes, is(2));
+    }
+
+    @Test
+    public void there_are_3_routes_starting_at_A_and_ending_at_C_with_exactly_4_stops() {
+        List<Route> routes = new RoutesBuilderByExactlyOfStops(4).
+                startAt("A").
+                endAt("C").
+                get();
+
+        int numberOfRoutes = routes.size();
+
+        assertThat(numberOfRoutes, is(3));
     }
 }

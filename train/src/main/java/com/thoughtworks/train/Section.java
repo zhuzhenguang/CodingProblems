@@ -7,10 +7,12 @@ import java.util.Objects;
  * <p>
  * Created by napoleon on 29/10/2016.
  */
-class Section extends Route {
+public class Section extends Route implements Cloneable {
     private String start;
     private String end;
     private int distance;
+
+    private Section previousSection;
 
     Section(String start, String end, int distance) {
         this.start = start;
@@ -30,13 +32,40 @@ class Section extends Route {
         return distance;
     }
 
-    @Override
     boolean startWith(String start) {
         return this.start.equals(start);
     }
 
-    String end() {
+    public boolean endWith(String end) {
+        return this.end().equals(end);
+    }
+
+    public String end() {
         return end;
+    }
+
+    public void setPreviousSection(Section previousSection) {
+        this.previousSection = previousSection;
+    }
+
+    public int sectionNo() {
+        return hasPreviousSection() ? previousSection.sectionNo() + 1 : 1;
+    }
+
+    public Route generateRoute() {
+        if (!hasPreviousSection()) {
+            return new Route(this);
+        }
+
+        Route route = previousSection.generateRoute();
+        route.addSection(this);
+        return route;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        super.clone();
+        return new Section(start, end, distance);
     }
 
     @Override
@@ -51,5 +80,9 @@ class Section extends Route {
     @Override
     public int hashCode() {
         return Objects.hash(start, end);
+    }
+
+    private boolean hasPreviousSection() {
+        return previousSection != null;
     }
 }

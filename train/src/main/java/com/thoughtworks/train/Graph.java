@@ -1,14 +1,16 @@
 package com.thoughtworks.train;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Graph
  * <p>
  * Created by napoleon on 29/10/2016.
  */
-class Graph {
+public class Graph {
     private static Graph graph;
     private List<Section> sectionsInGraph;
 
@@ -18,7 +20,7 @@ class Graph {
         }
     }
 
-    static Graph instance() {
+    public static Graph instance() {
         return graph;
     }
 
@@ -46,7 +48,16 @@ class Graph {
         throw new NoSuchRouteException("NO SUCH ROUTE");
     }
 
-    List<Section> sections() {
-        return sectionsInGraph;
+    public List<Section> sectionsStartWith(String start) {
+        List<Section> results = new ArrayList<>();
+        List<Section> collect = sectionsInGraph.stream().filter(section -> section.startWith(start)).collect(Collectors.toList());
+        for (Section section : collect) {
+            try {
+                results.add((Section) section.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+        return results;
     }
 }
