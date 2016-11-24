@@ -1,7 +1,6 @@
 package com.thoughtworks.train;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,20 +9,13 @@ import java.util.List;
  * Created by napoleon on 29/10/2016.
  */
 public class Route {
-    private List<Section> sections;
+    private Section lastSection;
 
     Route() {
-        this.sections = new ArrayList<>();
     }
 
     Route(String routePath) {
-        this();
         initializeSections(routePath);
-    }
-
-    Route(Section initialSection) {
-        this();
-        addSection(initialSection);
     }
 
     private void initializeSections(String routePath) {
@@ -34,10 +26,15 @@ public class Route {
     }
 
     void addSection(Section section) {
-        sections.add(section);
+        if (lastSection == null) {
+            lastSection = section;
+            return;
+        }
+        section.setPreviousSection(lastSection);
+        lastSection = section;
     }
 
     int distance() {
-        return sections.stream().mapToInt(Section::distance).sum();
+        return lastSection.distance();
     }
 }

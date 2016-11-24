@@ -19,8 +19,9 @@ public class RoutesBuilder {
     private FilterOperation filterOperation;
     private int filterStops;
 
-    RoutesBuilder() {
-        routes = new ArrayList<>();
+    RoutesBuilder(int filterStops) {
+        this.routes = new ArrayList<>();
+        this.filterStops = filterStops;
     }
 
     public RoutesBuilder startAt(String start) {
@@ -40,10 +41,6 @@ public class RoutesBuilder {
 
     void setFilterOperation(FilterOperation filterOperation) {
         this.filterOperation = filterOperation;
-    }
-
-    void setFilterStops(int filterStops) {
-        this.filterStops = filterStops;
     }
 
     private void collectRoutes(Section previousSection) {

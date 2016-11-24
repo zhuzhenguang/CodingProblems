@@ -7,8 +7,7 @@ package com.thoughtworks.train.routesbuilder;
  */
 public class RoutesBuilderByExactlyOfStops extends RoutesBuilder {
     public RoutesBuilderByExactlyOfStops(int exactlyOfStops) {
-        super();
-        setFilterStops(exactlyOfStops);
+        super(exactlyOfStops);
         setFilterOperation(new EqOperation());
     }
 }
