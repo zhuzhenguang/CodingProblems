@@ -1,8 +1,5 @@
 package com.thoughtworks.train;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Route
  * <p>
@@ -12,9 +9,11 @@ public class Route {
     private Section lastSection;
 
     Route() {
+        lastSection = Section.empty();
     }
 
     Route(String routePath) {
+        this();
         initializeSections(routePath);
     }
 
@@ -26,10 +25,6 @@ public class Route {
     }
 
     void addSection(Section section) {
-        if (lastSection == null) {
-            lastSection = section;
-            return;
-        }
         section.setPreviousSection(lastSection);
         lastSection = section;
     }
