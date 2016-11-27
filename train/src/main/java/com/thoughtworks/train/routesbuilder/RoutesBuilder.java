@@ -3,6 +3,7 @@ package com.thoughtworks.train.routesbuilder;
 import com.thoughtworks.train.Graph;
 import com.thoughtworks.train.Route;
 import com.thoughtworks.train.Section;
+import com.thoughtworks.train.routesbuilder.buildcondition.BuildCondition;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,6 +35,11 @@ public class RoutesBuilder {
         return this;
     }
 
+    public RoutesBuilder withCondition(BuildCondition condition) {
+        this.buildCondition = condition;
+        return this;
+    }
+
     public List<Route> allRoutes() {
         sectionsStartWith(start).forEach(this::collectRoutesByCondition);
         return routes;
@@ -45,13 +51,8 @@ public class RoutesBuilder {
         return minRoute.isPresent() ? minRoute.get() : new Route();
     }
 
-    void setBuildCondition(BuildCondition buildCondition) {
-        this.buildCondition = buildCondition;
-    }
-
     private void collectRoutesByCondition(Section previousSection) {
-        for (Section currentSection : sectionsStartWith(previousSection.end())) {
-            currentSection.setPreviousSection(previousSection);
+        for (Section currentSection : sectionsFrom(previousSection)) {
             if (currentSection.endWith(end) && buildCondition.canBuild(currentSection)) {
                 routes.add(currentSection.generateRoute());
             }
@@ -63,13 +64,12 @@ public class RoutesBuilder {
     }
 
     private void collectRoutes(Section previousSection) {
-        for (Section currentSection : sectionsStartWith(previousSection.end())) {
-            currentSection.setPreviousSection(previousSection);
+        for (Section currentSection : sectionsFrom(previousSection)) {
             if (currentSection.endWith(end)) {
                 routes.add(currentSection.generateRoute());
                 return;
             }
-            if (Section.isRoundTrip(previousSection, currentSection)) {
+            if (currentSection.isRoundTrip()) {
                 return;
             }
             collectRoutes(currentSection);
@@ -78,5 +78,11 @@ public class RoutesBuilder {
 
     private static List<Section> sectionsStartWith(String start) {
         return Graph.instance().sectionsStartWith(start);
+    }
+
+    private static List<Section> sectionsFrom(Section previousSection) {
+        List<Section> sections = Graph.instance().sectionsStartWith(previousSection.end());
+        sections.forEach(section -> section.setPreviousSection(previousSection));
+        return sections;
     }
 }

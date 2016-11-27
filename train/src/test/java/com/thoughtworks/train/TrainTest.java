@@ -1,9 +1,9 @@
 package com.thoughtworks.train;
 
 import com.thoughtworks.train.routesbuilder.RoutesBuilder;
-import com.thoughtworks.train.routesbuilder.RoutesBuilderByDistanceLimit;
-import com.thoughtworks.train.routesbuilder.RoutesBuilderByExactlyOfStops;
-import com.thoughtworks.train.routesbuilder.RoutesBuilderByMaximumOfStops;
+import com.thoughtworks.train.routesbuilder.buildcondition.DistanceLimitCondition;
+import com.thoughtworks.train.routesbuilder.buildcondition.StopsEqualCondition;
+import com.thoughtworks.train.routesbuilder.buildcondition.StopsLessCondition;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -76,9 +76,10 @@ public class TrainTest {
 
     @Test
     public void there_are_2_routes_starting_at_C_and_ending_at_C_with_maximum_of_3_stops() {
-        List<Route> routes = new RoutesBuilderByMaximumOfStops(3)
+        List<Route> routes = new RoutesBuilder()
                 .startAt("C")
                 .endAt("C")
+                .withCondition(new StopsLessCondition(3))
                 .allRoutes();
 
         int numberOfRoutes = routes.size();
@@ -88,9 +89,10 @@ public class TrainTest {
 
     @Test
     public void there_are_3_routes_starting_at_A_and_ending_at_C_with_exactly_4_stops() {
-        List<Route> routes = new RoutesBuilderByExactlyOfStops(4)
+        List<Route> routes = new RoutesBuilder()
                 .startAt("A")
                 .endAt("C")
+                .withCondition(new StopsEqualCondition(4))
                 .allRoutes();
 
         int numberOfRoutes = routes.size();
@@ -124,9 +126,10 @@ public class TrainTest {
 
     @Test
     public void there_are_7_routes_starting_at_C_and_ending_at_C_with_a_distance_of_less_than_30() {
-        List<Route> routes = new RoutesBuilderByDistanceLimit(30)
+        List<Route> routes = new RoutesBuilder()
                 .startAt("C")
                 .endAt("C")
+                .withCondition(new DistanceLimitCondition(30))
                 .allRoutes();
 
         int numberOfRoutes = routes.size();

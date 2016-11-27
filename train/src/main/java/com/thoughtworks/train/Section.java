@@ -47,10 +47,6 @@ public class Section implements Cloneable {
         return end;
     }
 
-    public String start() {
-        return start;
-    }
-
     public void setPreviousSection(Section previousSection) {
         this.previousSection = previousSection;
     }
@@ -63,6 +59,10 @@ public class Section implements Cloneable {
         Route route = previousSection.generateRoute();
         route.addSection(this);
         return route;
+    }
+
+    public boolean isRoundTrip() {
+        return endWith(previousSection.start);
     }
 
     @Override
@@ -87,9 +87,5 @@ public class Section implements Cloneable {
 
     static Section empty() {
         return new NullSection();
-    }
-
-    public static boolean isRoundTrip(Section previousSection, Section nextSection) {
-        return nextSection.endWith(previousSection.start());
     }
 }
