@@ -43,11 +43,11 @@ public class Section implements Cloneable {
         return this.end().equals(end);
     }
 
-    public String end() {
+    String end() {
         return end;
     }
 
-    public void setPreviousSection(Section previousSection) {
+    void setPreviousSection(Section previousSection) {
         this.previousSection = previousSection;
     }
 

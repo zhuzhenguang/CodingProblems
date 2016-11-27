@@ -7,14 +7,14 @@ import com.thoughtworks.train.Section;
  * <p>
  * Created by napoleon on 27/11/2016.
  */
-public class ShortestRouteCondition implements BuildCondition {
+public class ShortestRouteCondition extends BuildCondition {
     @Override
-    public boolean shouldStopBuild(Section section) {
-        return false;
+    public boolean shouldStopBuild(Section section, String end) {
+        return section.isRoundTrip() || super.canBuild(section, end);
     }
 
     @Override
-    public boolean canBuild(Section section) {
-        return true;
+    public boolean canBuild(Section section, String end) {
+        return super.canBuild(section, end);
     }
 }

@@ -41,48 +41,24 @@ public class RoutesBuilder {
     }
 
     public List<Route> allRoutes() {
-        sectionsStartWith(start).forEach(this::collectRoutesByCondition);
+        Graph.instance().sectionsStartWith(start).forEach(this::collectRoutes);
         return routes;
     }
 
     public Route shortestRoute() {
-        sectionsStartWith(start).forEach(this::collectRoutes);
-        Optional<Route> minRoute = routes.stream().min(Comparator.comparingInt(Route::distance));
-        return minRoute.isPresent() ? minRoute.get() : new Route();
-    }
-
-    private void collectRoutesByCondition(Section previousSection) {
-        for (Section currentSection : sectionsFrom(previousSection)) {
-            if (currentSection.endWith(end) && buildCondition.canBuild(currentSection)) {
-                routes.add(currentSection.generateRoute());
-            }
-            if (buildCondition.shouldStopBuild(currentSection)) {
-                return;
-            }
-            collectRoutesByCondition(currentSection);
-        }
+        Optional<Route> shortestRoute = allRoutes().stream().min(Comparator.comparingInt(Route::distance));
+        return shortestRoute.isPresent() ? shortestRoute.get() : new Route();
     }
 
     private void collectRoutes(Section previousSection) {
-        for (Section currentSection : sectionsFrom(previousSection)) {
-            if (currentSection.endWith(end)) {
+        for (Section currentSection : Graph.instance().sectionsFrom(previousSection)) {
+            if (buildCondition.canBuild(currentSection, end)) {
                 routes.add(currentSection.generateRoute());
-                return;
             }
-            if (currentSection.isRoundTrip()) {
+            if (buildCondition.shouldStopBuild(currentSection, end)) {
                 return;
             }
             collectRoutes(currentSection);
         }
-    }
-
-    private static List<Section> sectionsStartWith(String start) {
-        return Graph.instance().sectionsStartWith(start);
-    }
-
-    private static List<Section> sectionsFrom(Section previousSection) {
-        List<Section> sections = Graph.instance().sectionsStartWith(previousSection.end());
-        sections.forEach(section -> section.setPreviousSection(previousSection));
-        return sections;
     }
 }

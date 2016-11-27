@@ -2,7 +2,7 @@ package com.thoughtworks.train.routesbuilder.buildcondition;
 
 import com.thoughtworks.train.Section;
 
-public class DistanceLimitCondition implements BuildCondition {
+public class DistanceLimitCondition extends BuildCondition {
     private int limitDistance;
 
     public DistanceLimitCondition(int limitDistance) {
@@ -10,12 +10,12 @@ public class DistanceLimitCondition implements BuildCondition {
     }
 
     @Override
-    public boolean shouldStopBuild(Section section) {
+    public boolean shouldStopBuild(Section section, String end) {
         return section.distance() >= limitDistance;
     }
 
     @Override
-    public boolean canBuild(Section section) {
-        return section.distance() < limitDistance;
+    public boolean canBuild(Section section, String end) {
+        return super.canBuild(section, end) && section.distance() < limitDistance;
     }
 }

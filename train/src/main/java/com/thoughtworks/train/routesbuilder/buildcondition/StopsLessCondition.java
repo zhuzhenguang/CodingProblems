@@ -2,7 +2,7 @@ package com.thoughtworks.train.routesbuilder.buildcondition;
 
 import com.thoughtworks.train.Section;
 
-public class StopsLessCondition implements BuildCondition {
+public class StopsLessCondition extends BuildCondition {
     private int maximumOfStops;
 
     public StopsLessCondition(int maximumOfStops) {
@@ -10,12 +10,12 @@ public class StopsLessCondition implements BuildCondition {
     }
 
     @Override
-    public boolean shouldStopBuild(Section section) {
+    public boolean shouldStopBuild(Section section, String end) {
         return section.sectionNo() == maximumOfStops;
     }
 
     @Override
-    public boolean canBuild(Section section) {
-        return section.sectionNo() <= maximumOfStops;
+    public boolean canBuild(Section section, String end) {
+        return super.canBuild(section, end) && section.sectionNo() <= maximumOfStops;
     }
 }

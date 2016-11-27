@@ -5,9 +5,12 @@ import com.thoughtworks.train.Section;
 /**
  * BuildCondition
  * <p>
- * Created by napoleon on 21/11/2016.
+ * Created by napoleon on 27/11/2016.
  */
-public interface BuildCondition {
-    boolean shouldStopBuild(Section section);
-    boolean canBuild(Section section);
+public abstract class BuildCondition {
+    public abstract boolean shouldStopBuild(Section section, String end);
+
+    public boolean canBuild(Section section, String end) {
+        return section.endWith(end);
+    }
 }

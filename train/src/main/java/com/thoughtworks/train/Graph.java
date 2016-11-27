@@ -1,7 +1,6 @@
 package com.thoughtworks.train;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,8 +48,18 @@ public class Graph {
     }
 
     public List<Section> sectionsStartWith(String start) {
-        List<Section> results = new ArrayList<>();
         List<Section> collect = sectionsInGraph.stream().filter(section -> section.startWith(start)).collect(Collectors.toList());
+        return cloneFrom(collect);
+    }
+
+    public List<Section> sectionsFrom(Section previousSection) {
+        List<Section> sections = sectionsStartWith(previousSection.end());
+        sections.forEach(section -> section.setPreviousSection(previousSection));
+        return sections;
+    }
+
+    private static List<Section> cloneFrom(List<Section> collect) {
+        List<Section> results = new ArrayList<>();
         for (Section section : collect) {
             try {
                 results.add((Section) section.clone());

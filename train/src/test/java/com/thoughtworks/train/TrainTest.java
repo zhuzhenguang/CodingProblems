@@ -2,6 +2,7 @@ package com.thoughtworks.train;
 
 import com.thoughtworks.train.routesbuilder.RoutesBuilder;
 import com.thoughtworks.train.routesbuilder.buildcondition.DistanceLimitCondition;
+import com.thoughtworks.train.routesbuilder.buildcondition.ShortestRouteCondition;
 import com.thoughtworks.train.routesbuilder.buildcondition.StopsEqualCondition;
 import com.thoughtworks.train.routesbuilder.buildcondition.StopsLessCondition;
 import org.junit.BeforeClass;
@@ -105,6 +106,7 @@ public class TrainTest {
         Route shortestRoute = new RoutesBuilder()
                 .startAt("A")
                 .endAt("C")
+                .withCondition(new ShortestRouteCondition())
                 .shortestRoute();
 
         int distance = shortestRoute.distance();
@@ -117,6 +119,7 @@ public class TrainTest {
         Route shortestRoute = new RoutesBuilder()
                 .startAt("B")
                 .endAt("B")
+                .withCondition(new ShortestRouteCondition())
                 .shortestRoute();
 
         int distance = shortestRoute.distance();
