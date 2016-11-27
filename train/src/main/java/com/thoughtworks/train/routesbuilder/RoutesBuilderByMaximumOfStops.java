@@ -7,7 +7,7 @@ package com.thoughtworks.train.routesbuilder;
  */
 public class RoutesBuilderByMaximumOfStops extends RoutesBuilder {
     public RoutesBuilderByMaximumOfStops(int maximumOfStops) {
-        super(maximumOfStops);
-        setFilterOperation(new LeOperation());
+        setAllowCircle();
+        setBuildCondition(new StopsLessCondition(maximumOfStops));
     }
 }

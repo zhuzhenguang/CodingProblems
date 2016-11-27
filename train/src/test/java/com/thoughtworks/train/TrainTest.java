@@ -1,5 +1,7 @@
 package com.thoughtworks.train;
 
+import com.thoughtworks.train.routesbuilder.RoutesBuilder;
+import com.thoughtworks.train.routesbuilder.RoutesBuilderByDistanceLimit;
 import com.thoughtworks.train.routesbuilder.RoutesBuilderByExactlyOfStops;
 import com.thoughtworks.train.routesbuilder.RoutesBuilderByMaximumOfStops;
 import org.junit.BeforeClass;
@@ -74,10 +76,10 @@ public class TrainTest {
 
     @Test
     public void there_are_2_routes_starting_at_C_and_ending_at_C_with_maximum_of_3_stops() {
-        List<Route> routes = new RoutesBuilderByMaximumOfStops(3).
-                startAt("C").
-                endAt("C").
-                get();
+        List<Route> routes = new RoutesBuilderByMaximumOfStops(3)
+                .startAt("C")
+                .endAt("C")
+                .allRoutes();
 
         int numberOfRoutes = routes.size();
 
@@ -86,13 +88,49 @@ public class TrainTest {
 
     @Test
     public void there_are_3_routes_starting_at_A_and_ending_at_C_with_exactly_4_stops() {
-        List<Route> routes = new RoutesBuilderByExactlyOfStops(4).
-                startAt("A").
-                endAt("C").
-                get();
+        List<Route> routes = new RoutesBuilderByExactlyOfStops(4)
+                .startAt("A")
+                .endAt("C")
+                .allRoutes();
 
         int numberOfRoutes = routes.size();
 
         assertThat(numberOfRoutes, is(3));
+    }
+
+    @Test
+    public void length_of_the_shortest_route_starting_at_A_and_ending_at_C_should_be_9() {
+        Route shortestRoute = new RoutesBuilder()
+                .startAt("A")
+                .endAt("C")
+                .shortestRoute();
+
+        int distance = shortestRoute.distance();
+
+        assertThat(distance, is(9));
+    }
+
+    @Test
+    public void length_of_the_shortest_route_starting_at_B_and_ending_at_B_should_be_9() {
+        Route shortestRoute = new RoutesBuilder()
+                .startAt("B")
+                .endAt("B")
+                .shortestRoute();
+
+        int distance = shortestRoute.distance();
+
+        assertThat(distance, is(9));
+    }
+
+    @Test
+    public void there_are_7_routes_starting_at_C_and_ending_at_C_with_a_distance_of_less_than_30() {
+        List<Route> routes = new RoutesBuilderByDistanceLimit(30)
+                .startAt("C")
+                .endAt("C")
+                .allRoutes();
+
+        int numberOfRoutes = routes.size();
+
+        assertThat(numberOfRoutes, is(7));
     }
 }

@@ -11,7 +11,7 @@ public class NullSection extends Section {
     }
 
     @Override
-    int distance() {
+    public int distance() {
         return 0;
     }
 

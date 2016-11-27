@@ -28,7 +28,7 @@ public class Section implements Cloneable {
         this(start, end, -1);
     }
 
-    int distance() {
+    public int distance() {
         if (distance < 0) {
             distance = Graph.instance().getDistanceOf(this);
         }
@@ -45,6 +45,10 @@ public class Section implements Cloneable {
 
     public String end() {
         return end;
+    }
+
+    public String start() {
+        return start;
     }
 
     public void setPreviousSection(Section previousSection) {

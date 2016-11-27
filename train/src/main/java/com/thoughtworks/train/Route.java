@@ -8,7 +8,7 @@ package com.thoughtworks.train;
 public class Route {
     private Section lastSection;
 
-    Route() {
+    public Route() {
         lastSection = Section.empty();
     }
 
@@ -29,7 +29,7 @@ public class Route {
         lastSection = section;
     }
 
-    int distance() {
+    public int distance() {
         return lastSection.distance();
     }
 }
