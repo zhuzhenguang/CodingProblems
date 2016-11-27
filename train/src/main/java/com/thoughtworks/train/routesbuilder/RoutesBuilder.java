@@ -19,12 +19,9 @@ public class RoutesBuilder {
     private String end;
     private List<Route> routes;
     private BuildCondition buildCondition;
-    private boolean allowCircle;
 
     public RoutesBuilder() {
         this.routes = new ArrayList<>();
-        this.allowCircle = false;
-        setBuildCondition(new NullCondition());
     }
 
     public RoutesBuilder startAt(String start) {
@@ -38,12 +35,13 @@ public class RoutesBuilder {
     }
 
     public List<Route> allRoutes() {
-        Graph.instance().sectionsStartWith(start).forEach(this::collectRoutes);
+        sectionsStartWith(start).forEach(this::collectRoutesByCondition);
         return routes;
     }
 
     public Route shortestRoute() {
-        Optional<Route> minRoute = allRoutes().stream().min(Comparator.comparingInt(Route::distance));
+        sectionsStartWith(start).forEach(this::collectRoutes);
+        Optional<Route> minRoute = routes.stream().min(Comparator.comparingInt(Route::distance));
         return minRoute.isPresent() ? minRoute.get() : new Route();
     }
 
@@ -51,26 +49,34 @@ public class RoutesBuilder {
         this.buildCondition = buildCondition;
     }
 
-    void setAllowCircle() {
-        this.allowCircle = true;
-    }
-
-    private void collectRoutes(Section previousSection) {
-        for (Section currentSection : Graph.instance().sectionsStartWith(previousSection.end())) {
+    private void collectRoutesByCondition(Section previousSection) {
+        for (Section currentSection : sectionsStartWith(previousSection.end())) {
             currentSection.setPreviousSection(previousSection);
             if (currentSection.endWith(end) && buildCondition.canBuild(currentSection)) {
                 routes.add(currentSection.generateRoute());
-                if (!allowCircle) {
-                    return;
-                }
             }
             if (buildCondition.shouldStopBuild(currentSection)) {
                 return;
             }
-            if (currentSection.endWith(previousSection.start()) && !allowCircle) {
+            collectRoutesByCondition(currentSection);
+        }
+    }
+
+    private void collectRoutes(Section previousSection) {
+        for (Section currentSection : sectionsStartWith(previousSection.end())) {
+            currentSection.setPreviousSection(previousSection);
+            if (currentSection.endWith(end)) {
+                routes.add(currentSection.generateRoute());
+                return;
+            }
+            if (Section.isRoundTrip(previousSection, currentSection)) {
                 return;
             }
             collectRoutes(currentSection);
         }
+    }
+
+    private static List<Section> sectionsStartWith(String start) {
+        return Graph.instance().sectionsStartWith(start);
     }
 }

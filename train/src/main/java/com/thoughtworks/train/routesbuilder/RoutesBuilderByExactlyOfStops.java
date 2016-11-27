@@ -7,7 +7,6 @@ package com.thoughtworks.train.routesbuilder;
  */
 public class RoutesBuilderByExactlyOfStops extends RoutesBuilder {
     public RoutesBuilderByExactlyOfStops(int exactlyOfStops) {
-        setAllowCircle();
         setBuildCondition(new StopsEqualCondition(exactlyOfStops));
     }
 }

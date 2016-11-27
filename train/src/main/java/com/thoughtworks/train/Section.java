@@ -88,4 +88,8 @@ public class Section implements Cloneable {
     static Section empty() {
         return new NullSection();
     }
+
+    public static boolean isRoundTrip(Section previousSection, Section nextSection) {
+        return nextSection.endWith(previousSection.start());
+    }
 }

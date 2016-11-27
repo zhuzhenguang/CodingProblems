@@ -7,7 +7,6 @@ package com.thoughtworks.train.routesbuilder;
  */
 public class RoutesBuilderByDistanceLimit extends RoutesBuilder {
     public RoutesBuilderByDistanceLimit(int limitDistance) {
-        setAllowCircle();
         setBuildCondition(new DistanceLimitOperation(limitDistance));
     }
 }
