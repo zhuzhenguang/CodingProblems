@@ -14,29 +14,40 @@ import static org.junit.Assert.assertThat;
 public class RomanNumeralsTest {
     @Test
     public void pish_tegj_glob_glob_should_be_42() {
-        RomanComputer romanComputer = new RomanComputer();
+        RomanNumeralsComputer romanNumeralsComputer = new SimpleComputer();
 
-        String result = romanComputer.compute("how much is pish tegj glob glob ?");
+        String result = romanNumeralsComputer.compute("how much is pish tegj glob glob ?");
 
-        assertThat("pish tegj glob glob is 42", is(result));
+        assertThat(result, is("pish tegj glob glob is 42"));
     }
 
     @Test
     public void glob_prok_Silver_should_be_68_Credits() {
-        RomanComputer romanComputer = new RomanComputer();
+        RomanNumeralsComputer romanNumeralsComputer = new CreditsComputer(input());
 
-        String result = romanComputer.compute("how many Credits is glob prok Silver ?");
+        String result = romanNumeralsComputer.compute("how many Credits is glob prok Silver ?");
 
-        assertThat("glob prok Silver is 68 Credits", is(result));
+        assertThat(result, is("glob prok Silver is 68 Credits"));
     }
 
     @Test
     @Ignore
     public void glob_prok_Gold_should_be_57800_Credits() {
-        RomanComputer romanComputer = new RomanComputer();
+        RomanNumeralsComputer romanNumeralsComputer = new CreditsComputer(input());
 
-        String result = romanComputer.compute("how many Credits is glob prok Gold ?");
+        String result = romanNumeralsComputer.compute("how many Credits is glob prok Gold ?");
 
-        assertThat("glob prok Gold is 57800 Credits", is(result));
+        assertThat(result, is("glob prok Gold is 57800 Credits"));
+    }
+
+    private String[] input() {
+        return new String[]{
+                "glob is I",
+                "prok is V",
+                "pish is X",
+                "tegj is L",
+                "glob glob Silver is 34 Credits",
+                "glob prok Gold is 57800 Credits",
+                "pish pish Iron is 3910 Credits"};
     }
 }
