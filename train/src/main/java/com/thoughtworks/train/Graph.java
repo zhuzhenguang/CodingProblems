@@ -48,7 +48,10 @@ public class Graph {
     }
 
     public List<Section> sectionsStartWith(String start) {
-        List<Section> collect = sectionsInGraph.stream().filter(section -> section.startWith(start)).collect(Collectors.toList());
+        List<Section> collect = sectionsInGraph
+                .stream()
+                .filter(section -> section.startWith(start))
+                .collect(Collectors.toList());
         return cloneFrom(collect);
     }
 
