@@ -76,7 +76,7 @@ public class TrainTest {
     }
 
     @Test
-    public void there_are_2_routes_starting_at_C_and_ending_at_C_with_maximum_of_3_stops() {
+    public void there_are_2_routes_from_C_to_C_with_maximum_of_3_stops() {
         List<Route> routes = new RoutesBuilder()
                 .startAt("C")
                 .endAt("C")
@@ -89,7 +89,7 @@ public class TrainTest {
     }
 
     @Test
-    public void there_are_3_routes_starting_at_A_and_ending_at_C_with_exactly_4_stops() {
+    public void there_are_3_routes_from_A_to_C_with_exactly_4_stops() {
         List<Route> routes = new RoutesBuilder()
                 .startAt("A")
                 .endAt("C")
@@ -102,7 +102,7 @@ public class TrainTest {
     }
 
     @Test
-    public void length_of_the_shortest_route_starting_at_A_and_ending_at_C_should_be_9() {
+    public void length_of_the_shortest_route_from_A_to_C_should_be_9() {
         Route shortestRoute = new RoutesBuilder()
                 .startAt("A")
                 .endAt("C")
@@ -115,7 +115,7 @@ public class TrainTest {
     }
 
     @Test
-    public void length_of_the_shortest_route_starting_at_B_and_ending_at_B_should_be_9() {
+    public void length_of_the_shortest_route_from_B_to_B_should_be_9() {
         Route shortestRoute = new RoutesBuilder()
                 .startAt("B")
                 .endAt("B")
@@ -128,7 +128,7 @@ public class TrainTest {
     }
 
     @Test
-    public void there_are_7_routes_starting_at_C_and_ending_at_C_with_a_distance_of_less_than_30() {
+    public void there_are_7_routes_from_C_to_C_with_a_distance_of_less_than_30() {
         List<Route> routes = new RoutesBuilder()
                 .startAt("C")
                 .endAt("C")

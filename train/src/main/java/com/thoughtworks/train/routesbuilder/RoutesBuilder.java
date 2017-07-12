@@ -47,7 +47,7 @@ public class RoutesBuilder {
 
     public Route shortestRoute() {
         Optional<Route> shortestRoute = allRoutes().stream().min(Comparator.comparingInt(Route::distance));
-        return shortestRoute.isPresent() ? shortestRoute.get() : new Route();
+        return shortestRoute.orElseGet(Route::new);
     }
 
     private void collectRoutes(Section previousSection) {
