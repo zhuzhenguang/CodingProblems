@@ -50,27 +50,48 @@ public class TrackTest {
         });
     }
 
+    @Test
+    public void should_contain_WritingFastTestsAgainstEnterpriseRails() {
+        Conference conference = new Conference(inputs());
+        List<Track> tracks = conference.tracks();
+
+        Track firstTrack = tracks.get(0);
+        TrackItem firstItem = firstTrack.items().get(0);
+
+        assertThat(firstItem, notNullValue());
+        assertThat(firstItem.topic(), equalTo("Writing Fast Tests Against Enterprise Rails"));
+        assertThat(firstItem.startTime().toString(), equalTo("09:00AM"));
+    }
+
     private TrackItem LastItemOf(List<TrackItem> trackItems) {
         Optional<TrackItem> trackItem = trackItems.stream().reduce((first, second) -> second);
-        return trackItem.isPresent() ? trackItem.get() : null;
+        return trackItem.orElse(null);
     }
 
     private TrackItem LunchIn(List<TrackItem> trackItems) {
         Optional<TrackItem> lunch = trackItems.stream().filter(item -> item.topic().equals("Lunch")).findFirst();
-        return lunch.isPresent() ? lunch.get() : null;
+        return lunch.orElse(null);
     }
 
     private String[] inputs() {
         return new String[]{
-                "Writing Fast Tests Against Enterprise Rails 60min Overdoing it in Python 45min",
+                "Writing Fast Tests Against Enterprise Rails 60min",
+                "Overdoing it in Python 45min",
                 "Lua for the Masses 30min",
-                "Ruby Errors from Mismatched Gem Versions 45min Common Ruby Errors 45min",
-                "Rails for Python Developers lightning Communicating Over Distance 60min Accounting-Driven Development 45min",
+                "Ruby Errors from Mismatched Gem Versions 45min",
+                "Common Ruby Errors 45min",
+                "Rails for Python Developers lightning",
+                "Communicating Over Distance 60min",
+                "Accounting-Driven Development 45min",
                 "Woah 30min",
                 "Sit Down and Write 30min",
                 "Pair Programming vs Noise 45min",
                 "Rails Magic 60min",
-                "Ruby on Rails: Why We Should Move On 60min Clojure Ate Scala (on my project) 45min Programming in the Boondocks of Seattle 30min Ruby vs. Clojure for Back-End Development 30min Ruby on Rails Legacy App Maintenance 60min",
+                "Ruby on Rails: Why We Should Move On 60min ",
+                "Clojure Ate Scala (on my project) 45min ",
+                "Programming in the Boondocks of Seattle 30min ",
+                "Ruby vs. Clojure for Back-End Development 30min ",
+                "Ruby on Rails Legacy App Maintenance 60min",
                 "A World Without HackerNews 30min",
                 "User Interface CSS in Rails Apps 30min"
         };
