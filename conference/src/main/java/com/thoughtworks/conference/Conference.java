@@ -15,7 +15,9 @@ public class Conference {
     Conference(String[] inputs) {
         String input = inputs[0];
         InputParser inputParser = new InputParser(input);
-        schedule(new Talk(new Duration(inputParser.durationString()), inputParser.title()));
+        schedule(new Talk(
+                new Duration(inputParser.durationString()),
+                inputParser.title()));
     }
 
     private void schedule(Talk item) {

@@ -6,4 +6,9 @@ class Duration {
     Duration(String durationString) {
         this.durationString = durationString;
     }
+
+    @Override
+    public String toString() {
+        return durationString;
+    }
 }

@@ -51,16 +51,19 @@ public class TrackTest {
     }
 
     @Test
-    public void should_contain_WritingFastTestsAgainstEnterpriseRails() {
+    public void should_contain_track1() {
         Conference conference = new Conference(inputs());
 
         List<Track> tracks = conference.tracks();
-
         Track track1 = tracks.get(0);
+
         Talk talk1 = track1.talks().get(0);
         assertThat(talk1, notNullValue());
-        assertThat(talk1.topic(), equalTo("Writing Fast Tests Against Enterprise Rails"));
-        assertThat(talk1.startTime().toString(), equalTo("09:00AM"));
+        assertThat(talk1.toString(), equalTo("09:00AM Writing Fast Tests Against Enterprise Rails 60min"));
+
+        Talk talk2 = track1.talks().get(1);
+        assertThat(talk2, notNullValue());
+        assertThat(talk2.toString(), equalTo("10:00AM Overdoing it in Python 45min"));
     }
 
     private Talk LastItemOf(List<Talk> talks) {
