@@ -10,21 +10,17 @@ import java.util.stream.Stream;
  * Created by napoleon on 05/12/2016.
  */
 class Track {
-    private TrackItem trackItem;
+    private Talk talk;
 
-    Track(TrackItem trackItem) {
-        this.trackItem = trackItem;
+    Track(Talk talk) {
+        this.talk = talk;
     }
 
-    public List<Talk> talks() {
-        return null;
-    }
-
-    List<TrackItem> items() {
+    List<Talk> talks() {
         return Stream.of(
-                trackItem,
-                new TrackItem(new Time(0), "Lunch"),
-                new TrackItem(new Time(5), "Networking Event")
+                talk,
+                new Talk(new Time(0), "Lunch"),
+                new Talk(new Time(5), "Networking Event")
         ).collect(Collectors.toList());
     }
 }

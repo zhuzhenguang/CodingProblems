@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  * Created by napoleon on 07/12/2016.
  */
 public class Conference {
-    private TrackItem trackItem;
+    private Talk talk;
 
     Conference(String[] inputs) {
         String input = inputs[0];
@@ -18,11 +18,11 @@ public class Conference {
         schedule(new Talk(new Duration(inputParser.durationString()), inputParser.title()));
     }
 
-    private void schedule(Talk talk) {
-        trackItem = talk.toTrackItem(new Time(21));
+    private void schedule(Talk item) {
+        talk = item;
     }
 
     public List<Track> tracks() {
-        return Stream.of(new Track(trackItem)).collect(Collectors.toList());
+        return Stream.of(new Track(talk)).collect(Collectors.toList());
     }
 }

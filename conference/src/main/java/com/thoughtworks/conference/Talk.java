@@ -1,16 +1,28 @@
 package com.thoughtworks.conference;
 
 /**
+ * Talk
+ * <p>
  * Created by napoleon on 05/12/2016.
  */
-public class Talk {
-    private String title;
+class Talk {
+    private Time startTime;
+    private String topic;
 
-    Talk(Duration duration, String title) {
-        this.title = title;
+    Talk(Time startTime, String topic) {
+        this.startTime = startTime;
+        this.topic = topic;
     }
 
-    public TrackItem toTrackItem(Time time) {
-        return new TrackItem(time, title);
+    Talk(Duration duration, String title) {
+        this(new Time(21), title);
+    }
+
+    Time startTime() {
+        return startTime;
+    }
+
+    String topic() {
+        return topic;
     }
 }

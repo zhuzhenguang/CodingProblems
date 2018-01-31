@@ -25,9 +25,9 @@ public class TrackTest {
         List<Track> tracks = conference.tracks();
 
         tracks.forEach(track -> {
-            List<TrackItem> trackItems = track.items();
+            List<Talk> talks = track.talks();
 
-            TrackItem lunch = LunchIn(trackItems);
+            Talk lunch = LunchIn(talks);
             assertThat(lunch, notNullValue());
             assertThat(lunch.startTime().toString(), equalTo("12:00PM"));
         });
@@ -39,9 +39,9 @@ public class TrackTest {
         List<Track> tracks = conference.tracks();
 
         tracks.forEach(track -> {
-            List<TrackItem> trackItems = track.items();
+            List<Talk> talks = track.talks();
 
-            TrackItem networkingEvent = LastItemOf(trackItems);
+            Talk networkingEvent = LastItemOf(talks);
             assertThat(networkingEvent, notNullValue());
             assertThat(networkingEvent.startTime().date(), both(
                     after(new Time(4).date())).and(
@@ -53,23 +53,23 @@ public class TrackTest {
     @Test
     public void should_contain_WritingFastTestsAgainstEnterpriseRails() {
         Conference conference = new Conference(inputs());
+
         List<Track> tracks = conference.tracks();
 
-        Track firstTrack = tracks.get(0);
-        TrackItem firstItem = firstTrack.items().get(0);
-
-        assertThat(firstItem, notNullValue());
-        assertThat(firstItem.topic(), equalTo("Writing Fast Tests Against Enterprise Rails"));
-        assertThat(firstItem.startTime().toString(), equalTo("09:00AM"));
+        Track track1 = tracks.get(0);
+        Talk talk1 = track1.talks().get(0);
+        assertThat(talk1, notNullValue());
+        assertThat(talk1.topic(), equalTo("Writing Fast Tests Against Enterprise Rails"));
+        assertThat(talk1.startTime().toString(), equalTo("09:00AM"));
     }
 
-    private TrackItem LastItemOf(List<TrackItem> trackItems) {
-        Optional<TrackItem> trackItem = trackItems.stream().reduce((first, second) -> second);
+    private Talk LastItemOf(List<Talk> talks) {
+        Optional<Talk> trackItem = talks.stream().reduce((first, second) -> second);
         return trackItem.orElse(null);
     }
 
-    private TrackItem LunchIn(List<TrackItem> trackItems) {
-        Optional<TrackItem> lunch = trackItems.stream().filter(item -> item.topic().equals("Lunch")).findFirst();
+    private Talk LunchIn(List<Talk> talks) {
+        Optional<Talk> lunch = talks.stream().filter(item -> item.topic().equals("Lunch")).findFirst();
         return lunch.orElse(null);
     }
 

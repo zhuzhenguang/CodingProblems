@@ -2,12 +2,12 @@ package com.thoughtworks.conference;
 
 public class InputParser {
     private final String durationString;
-    private final String title;
+    private final String topic;
 
     InputParser(String input) {
         String[] inputArray = input.split(" ");
         durationString = inputArray[inputArray.length - 1];
-        title = input.substring(0, input.lastIndexOf(" "));
+        topic = input.substring(0, input.lastIndexOf(" "));
     }
 
     public String durationString() {
@@ -15,6 +15,6 @@ public class InputParser {
     }
 
     public String title() {
-        return title;
+        return topic;
     }
 }
