@@ -1,6 +1,5 @@
 package com.thoughtworks.conference;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,13 +14,8 @@ public class Conference {
 
     Conference(String[] inputs) {
         String input = inputs[0];
-
-        String[] inputArray = input.split(" ");
-        String durationString = inputArray[inputArray.length - 1];
-        String title = input.substring(0, input.lastIndexOf(" "));
-        //String startTime = durationString.substring(0, durationString.indexOf("min"));
-
-        schedule(new Talk(new Duration(durationString), title));
+        InputParser inputParser = new InputParser(input);
+        schedule(new Talk(new Duration(inputParser.durationString()), inputParser.title()));
     }
 
     private void schedule(Talk talk) {
