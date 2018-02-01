@@ -23,6 +23,10 @@ public class Time {
         this(hour, 0);
     }
 
+    private Time(Date date) {
+        this.date = date;
+    }
+
     Date date() {
         return date;
     }
@@ -30,5 +34,9 @@ public class Time {
     @Override
     public String toString() {
         return new SimpleDateFormat("hh:mmaa").format(date);
+    }
+
+    public Time addMinutes(int time) {
+        return new Time(new Date(date.getTime() + (time * 60000)));
     }
 }

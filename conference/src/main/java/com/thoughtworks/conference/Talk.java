@@ -6,6 +6,7 @@ package com.thoughtworks.conference;
  * Created by napoleon on 05/12/2016.
  */
 class Talk {
+    private static final int START_TIME_EACH_DAY = 21;
     private Duration duration;
     private Time startTime;
     private String topic;
@@ -16,7 +17,7 @@ class Talk {
     }
 
     Talk(Duration duration, String title) {
-        this(new Time(21), title);
+        this(new Time(START_TIME_EACH_DAY).addMinutes(duration.time()), title);
         this.duration = duration;
     }
 
@@ -26,6 +27,14 @@ class Talk {
 
     String topic() {
         return topic;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Duration duration() {
+        return duration;
     }
 
     @Override

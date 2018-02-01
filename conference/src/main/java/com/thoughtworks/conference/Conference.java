@@ -10,21 +10,24 @@ import java.util.stream.Stream;
  * Created by napoleon on 07/12/2016.
  */
 public class Conference {
-    private Talk talk;
+    private final Track track;
 
     Conference(String[] inputs) {
-        String input = inputs[0];
-        InputParser inputParser = new InputParser(input);
-        schedule(new Talk(
-                new Duration(inputParser.durationString()),
-                inputParser.title()));
+        track = new Track();
+
+        for (String input : inputs) {
+            InputParser inputParser = new InputParser(input);
+            schedule(new Talk(
+                    new Duration(inputParser.durationString()),
+                    inputParser.title()));
+        }
     }
 
-    private void schedule(Talk item) {
-        talk = item;
+    private void schedule(Talk talk) {
+        track.addTalk(talk);
     }
 
     public List<Track> tracks() {
-        return Stream.of(new Track(talk)).collect(Collectors.toList());
+        return Stream.of(track).collect(Collectors.toList());
     }
 }

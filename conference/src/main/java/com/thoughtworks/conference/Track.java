@@ -1,5 +1,6 @@
 package com.thoughtworks.conference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,17 +11,29 @@ import java.util.stream.Stream;
  * Created by napoleon on 05/12/2016.
  */
 class Track {
-    private Talk talk;
+    private List<Talk> talks;
 
-    Track(Talk talk) {
-        this.talk = talk;
+    Track() {
+        talks = new ArrayList<>();
     }
 
     List<Talk> talks() {
-        return Stream.of(
-                talk,
+        return Stream.concat(talks.stream(), Stream.of(
                 new Talk(new Time(0), "Lunch"),
                 new Talk(new Time(5), "Networking Event")
-        ).collect(Collectors.toList());
+        )).collect(Collectors.toList());
+    }
+
+    public void addTalk(Talk talk) {
+        talk.setStartTime(nextAvailableTime());
+        talks.add(talk);
+    }
+
+    private Time nextAvailableTime() {
+        if (talks.isEmpty()) {
+            return new Time(21);
+        } else {
+            return talks.get(0).startTime().addMinutes(talks.get(0).duration().time());
+        }
     }
 }
